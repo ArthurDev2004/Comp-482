@@ -1,5 +1,10 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        Graph myGraph = new Graph("Arthur's Graph"); 
+
+        System.out.println(myGraph.getName()); 
+
+        myGraph.populate();
+        myGraph.print(); 
     }
 }
