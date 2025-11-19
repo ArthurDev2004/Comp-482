@@ -1,0 +1,113 @@
+import sys 
+from heapq import heapify, heappush, heappop
+
+def dijkstra(graph, src, dest, w1_dist_cost, w2_time_cost):
+    inf = sys.maxsize
+    node_data = {'A':{'cost':inf, 'pred':[]}, 
+                 'B':{'cost':inf, 'pred':[]}, 
+                 'C':{'cost':inf, 'pred':[]}, 
+                 'D':{'cost':inf, 'pred':[]}, 
+                 'E':{'cost':inf, 'pred':[]}, 
+                 'F':{'cost':inf, 'pred':[]}
+                 }
+    node_data[src]['cost'] = 0
+    visited = []
+    norm_weight_list = []
+    curr = src
+
+    dist_list = []
+    time_list = []
+    min_value = []
+    max_value = []
+   
+
+    for i in node_data:
+        #print(graph[i])
+        for j in graph[i]:
+            print(type(graph[i][j]['dist']))
+            dist_list.append(graph[i][j]['dist'])
+            time_list.append(graph[i][j]['time'])
+    min_value.append(min(dist_list))
+    min_value.append(min(time_list))
+
+    
+    max_value.append(max(dist_list))
+    max_value.append(max(time_list))
+
+    for i in range(len(node_data)-1):
+        if curr not in visited: 
+            visited.append(curr)
+            min_heap=[]        
+            for j in graph[curr]:
+                if j not in visited:
+                    #print(min_value,max_value)
+                    idx = 0
+                    for k in graph[curr][j]:
+                        
+                        #print(type(graph[curr][j][k]))
+                        norm = float((graph[curr][j][k] - min_value[idx])/(max_value[idx]-min_value[idx]))
+                        norm = round(norm, 2)
+                        idx = idx+1
+
+                        norm_weight_list.append(norm)
+                        
+                    print(norm_weight_list)
+                    
+                    total_weight = (w1_dist_cost * norm_weight_list[0]) + (w2_time_cost * norm_weight_list[1])
+                    total_weight = round(total_weight, 2)
+                    norm_weight_list = []
+                    graph[curr][j] = total_weight
+
+
+                    cost = node_data[curr]['cost'] + graph[curr][j]
+                    print(cost)
+                    if cost < node_data[j]['cost']:
+                        node_data[j]['cost'] = cost
+                        node_data[j]['pred'] = node_data[curr]['pred'] + list(curr)
+                        #print(j)
+                        #print(node_data[j]['pred'])
+                    heappush(min_heap,(node_data[j]['cost'],j))
+        heapify(min_heap)
+        curr = min_heap[0][1]
+        #print()
+        #print("Next Node")
+        
+
+    print("Shortest Distance: " + str((node_data[dest]['cost'])))
+    print("Shortest Path: " + str(node_data[dest]['pred'] + list(dest)))
+
+
+
+                
+
+    
+if __name__ == "__main__":
+    graph = {
+        'A':{'B':{'dist': 2, 'time': 4},'C':{'dist': 4, 'time': 1}},
+        'B':{'A':{'dist': 2, 'time': 4}, 'C':{'dist': 3, 'time': 5}, 'D':{'dist': 8, 'time': 3}},
+        'C':{'A':{'dist': 4, 'time': 1}, 'B':{'dist': 3, 'time': 5}, 'E':{'dist': 5, 'time': 10}, 'D':{'dist': 2, 'time': 7}},
+        'D':{'B':{'dist': 8, 'time': 3}, 'C':{'dist': 2, 'time': 7}, 'E':{'dist': 11, 'time': 0}, 'F':{'dist': 22, 'time': 1}},
+        'E':{'C':{'dist': 5, 'time': 10}, 'D':{'dist': 11, 'time': 0}, 'F':{'dist': 1, 'time': 15}},
+        'F':{'D':{'dist': 22, 'time': 1}, 'E':{'dist': 1, 'time': 15}}
+
+    }
+
+    source = 'A'
+    destination = 'F'
+    w1_dist_cost = input(f"From 0-10, how crucial is the distance:")
+    w1_dist_cost = float(int(float(w1_dist_cost)))
+
+    while w1_dist_cost<0 or w1_dist_cost>10:
+        print('Input not valid. TRY AGAIN.')
+        w1_dist_cost = input(f"From 0-10, how crucial is the distance:")
+        
+    w1_dist_cost = w1_dist_cost /10
+    #print(w1_dist_cost)
+    w2_time_cost = 1- w1_dist_cost
+    #print(w2_time_cost)
+
+    
+
+
+
+    dijkstra(graph, source, destination, w1_dist_cost, w2_time_cost)
