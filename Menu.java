@@ -6,12 +6,13 @@ public class Menu {
         System.out.println("1) Add Node");
         System.out.println("2) Add Edge");
         System.out.println("3) Quit");
+        System.out.print("Enter selection: "); 
     }
 
     // node insert menu
     public static void insertNodeMenu()
     {
-        System.out.println("Enter the name of the node: ");
+        System.out.print("Enter the name of the node: ");
     }
 
 
