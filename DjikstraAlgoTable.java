@@ -1,33 +1,33 @@
 public class DjikstraAlgoTable implements Comparable<DjikstraAlgoTable>
 {
-    private double normalizedValue; 
+    private double value; 
     private boolean visited;
     private String parentNode; 
     private final String currentNode; 
 
     public DjikstraAlgoTable(String currentNodeName)
     {
-        this.normalizedValue = Double.POSITIVE_INFINITY; 
+        this.value = Double.POSITIVE_INFINITY; 
         this.visited = false; 
         this.parentNode = null;
-        this.currentNode = null;
+        this.currentNode = currentNodeName;
     }
 
     public DjikstraAlgoTable(String currentNode, double value)
     {
-        this.normalizedValue = value; 
+        this.value = value; 
         this.visited = false; 
         this.parentNode = null;
-        this.currentNode = null;
+        this.currentNode = currentNode;
     }
 
-        public void setValue(double value)
+    public void setValue(double value)
     {
-        this.normalizedValue = value;
+        this.value = value;
     }
 
     public double getValue(){
-        return this.normalizedValue;
+        return this.value;
     }
 
     public void setVisited(boolean visited)
@@ -57,14 +57,14 @@ public class DjikstraAlgoTable implements Comparable<DjikstraAlgoTable>
     @Override
     public String toString()
     {
-        return this.normalizedValue + " " + this.visited + " " + this.parentNode;
+        return this.value + " " + this.visited + " " + this.parentNode;
     }
 
     // will be used so this can be put in the priority queue
     @Override
     public int compareTo(DjikstraAlgoTable other)
     {
-        return Double.compare(this.normalizedValue, other.getValue());
+        return Double.compare(this.value, other.getValue());
     }
 
     

@@ -3,7 +3,8 @@ public class Main {
     {
         Graph graph = new Graph(); 
 
-        graph.populateFromFile();
+        graph.populate();
         graph.print();
+        graph.djikstra();
     }
 }

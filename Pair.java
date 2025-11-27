@@ -2,13 +2,17 @@
 public class Pair {
     private final double minutes; 
     private final double  miles; 
-    private double normalizedValue; 
+    private double normalizedMinutes; 
+    private double normalizedMiles;
+    private double singalFinalValue; 
 
-    public Pair(double min, double mi)
+    public Pair(double minutes, double miles)
     {
-        this.minutes = min; 
-        this.miles = mi; 
-        this.normalizedValue = 0.0; 
+        this.minutes = minutes; 
+        this.miles = miles; 
+        this.normalizedMinutes = 0.0;
+        this.normalizedMiles = 0.0;
+        this.singalFinalValue = 0.0;
     }
 
     public double getMinutes()
@@ -21,14 +25,34 @@ public class Pair {
         return this.miles; 
     }
 
-    public void setNormalizedValue(double normalized)
+    public double getNormalizedMiles()
     {
-        this.normalizedValue = normalized; 
+        return this.normalizedMiles; 
     }
 
-    public double getNormalizedValue()
+    public double getNormalizedMinutes()
     {
-        return this.normalizedValue; 
+        return this.normalizedMinutes; 
+    }
+
+    public void setNormalizedMiles(double normalizedMiles)
+    {
+        this.normalizedMiles = normalizedMiles; 
+    }
+
+    public void setNormalizedMinutes(double normalizedMinutes)
+    {
+        this.normalizedMinutes = normalizedMinutes; 
+    }
+
+    public void setSingalFinalValue(double finalValue)
+    {
+        this.singalFinalValue = finalValue;
+    }
+
+    public double getSingalFinalValue()
+    {
+        return this.singalFinalValue; 
     }
 
 }
