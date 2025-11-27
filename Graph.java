@@ -238,13 +238,12 @@ public class Graph {
 
     }
 
+    
+
     // will perform djikstra algorithm on this current graph, will output the shortest path and 
-    public void djikstra()
+    public void djikstra(String sourceNodeName, String destinationNodeName,double minutesImportance, double milesImportance)
     {
         DjikstraAlgoTable currentNode = null; 
-        String sourceNodeName = null;
-        double minutesImportance = 0.0;
-        double milesImportance = 0.0;
         double miles = 0.0;
         double minutes = 0.0;
         double normalizedMiles = 0.0;
@@ -252,33 +251,7 @@ public class Graph {
         double finalEdgeValue = 0.0;
         HashMap<String, DjikstraAlgoTable> djikstraAlgoTable = new HashMap<>(); // represents the table which will be used for djikstra's algorithm 
         PriorityQueue<DjikstraAlgoTable> djikstraPQ = new PriorityQueue<>(); 
-        Scanner inputScanner = new Scanner(System.in); 
 
-
-        System.out.print("Enter the source node: "); 
-        sourceNodeName = inputScanner.nextLine(); 
-
-        // get the input with the proper input validation
-        System.out.print("On a scale of 0-10, enter how much importance you want to put on minutes: "); 
-        minutesImportance = inputScanner.nextDouble();  
-        while(minutesImportance < 0 || minutesImportance > 10)
-        {
-            System.out.println("Input a number on a scale of 0-10. Try Again!"); 
-            System.out.print("On a scale of 0-10, enter how much importance you want to put on minutes: "); 
-            minutesImportance = inputScanner.nextDouble(); 
-        }
-        minutesImportance = minutesImportance / 10; 
-
-        // get the input with the proper input valdiation
-        System.out.print("On a scale of 1-10, enter how much importance you want to put on miles: ");
-        milesImportance = inputScanner.nextDouble(); 
-        while(milesImportance < 0 || milesImportance > 10)
-        {
-            System.out.println("Input a number on a scale of 0-10. Try Again!"); 
-            System.out.print("On a scale of 0-10, enter how much importance you want to put on miles: "); 
-            milesImportance = inputScanner.nextDouble(); 
-        }
-        milesImportance = milesImportance / 10; 
 
         // intialize the djikstra algorithm table which will keep track of all of the values, visited, and parents 
         this.intializeDjikstraTable(djikstraAlgoTable, djikstraPQ, sourceNodeName);
@@ -296,7 +269,7 @@ public class Graph {
                 // checks if this adjacent node has been visited 
                 if (djikstraAlgoTable.get(adjacentNode).getVisited() == true)
                 {
-                    continue; 
+
                 }
                 else // perform the edge relaxation (normalization, importance function, single value)
                 {
@@ -341,7 +314,43 @@ public class Graph {
 
         }
 
-        this.printPaths(sourceNodeName, djikstraAlgoTable);
+        this.printDestinationPath(destinationNodeName, djikstraAlgoTable);
+
+        //this.printPaths(sourceNodeName, djikstraAlgoTable);
+
+    }
+
+    // will print the destination to the path from the sourcenode
+    private void printDestinationPath(String destinationNodeName, HashMap<String, DjikstraAlgoTable> djikstraAlgoTable)
+    {
+        String currentNodeName = destinationNodeName; 
+        Stack<String> path = new Stack<>();
+        double pathValue = 0.0; 
+
+        // get the destinationNode from the table and use it 
+
+        while(djikstraAlgoTable.get(currentNodeName).getParentNode() != null)
+        {
+            path.push(currentNodeName); 
+
+            currentNodeName = djikstraAlgoTable.get(currentNodeName).getParentNode(); 
+        }
+
+        path.push(currentNodeName); 
+
+        System.out.print("Path Value: " + pathValue + " Path: "); 
+
+        while(path.isEmpty() == false)
+        {
+             if (path.size() == 1) // for last element in the stack
+                {
+                    System.out.print(path.pop());
+                }
+                else {
+                    System.out.print(path.pop() + " -> ");
+                }
+        }
+        System.out.println(); 
 
     }
 
