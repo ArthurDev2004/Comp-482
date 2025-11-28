@@ -1,5 +1,7 @@
 import java.util.Scanner; 
 
+
+//This is a test from sara becasue she doesn't know GIT very well
 public class Main {
     public static void main(String[] args)
     {
@@ -26,7 +28,8 @@ public class Main {
         {
             // get the input with the proper input validation
             System.out.print("On a scale of 0-10, enter how much importance you want to put on minutes: "); 
-            minutesImportance = inputScanner.nextDouble();  
+            minutesImportance = inputScanner.nextDouble(); 
+            
             while(minutesImportance < 0 || minutesImportance > 10)
             {
                 System.out.println("Input a number on a scale of 0-10. Try Again!"); 
@@ -44,7 +47,8 @@ public class Main {
                 System.out.print("On a scale of 0-10, enter how much importance you want to put on miles: "); 
                 milesImportance = inputScanner.nextDouble(); 
             }
-            milesImportance = milesImportance / 10; 
+            milesImportance = milesImportance / 10;
+            
 
             graph.djikstra(sourceNodeName, destinationNodeName, minutesImportance, milesImportance); // performs djiksrta's algorithm 
             
