@@ -1,7 +1,7 @@
-// represents the two weights of each edge in the graph
+// this class holds the two weights for each edge
 public class Pair {
     private final double minutes; 
-    private final double  miles; 
+    private final double miles; 
     private double normalizedMinutes; 
     private double normalizedMiles;
     private double singalFinalValue; 

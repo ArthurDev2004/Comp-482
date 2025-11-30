@@ -1,3 +1,4 @@
+// keeps track of the data for the algorithm table
 public class DjikstraAlgoTable implements Comparable<DjikstraAlgoTable>
 {
     private double value; 
@@ -57,17 +58,13 @@ public class DjikstraAlgoTable implements Comparable<DjikstraAlgoTable>
     @Override
     public String toString()
     {
-        return this.value + " " + this.visited + " " + this.parentNode;
+        return this.currentNode + ": " + this.value;
     }
 
-    // will be used so this can be put in the priority queue
+    // needed for the priority queue to sort correctly
     @Override
     public int compareTo(DjikstraAlgoTable other)
     {
         return Double.compare(this.value, other.getValue());
     }
-
-    
-
-    
 }

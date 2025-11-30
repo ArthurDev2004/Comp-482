@@ -1,6 +1,6 @@
 public class Menu {
 
-    // main populating menu
+    // helper for the menu text
     public static void menu()
     {
         System.out.println("1) Add Node");
@@ -9,11 +9,8 @@ public class Menu {
         System.out.print("Enter selection: "); 
     }
 
-    // node insert menu
     public static void insertNodeMenu()
     {
         System.out.print("Enter the name of the node: ");
     }
-
-
 }

@@ -1,5 +1,4 @@
-// This represents the vertex
-
+// represents a vertex
 public class Node {
 
     public String name; 
@@ -7,8 +6,6 @@ public class Node {
     public Node(String name) {
         this.name = name;
     }
-
-    
 
     public String getName() {
         return name;
@@ -18,4 +15,3 @@ public class Node {
         this.name = name;
     }
 }
-
