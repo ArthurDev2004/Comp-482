@@ -320,12 +320,19 @@ public class Graph {
 
     }
 
-    // will print the destination to the path from the sourcenode
+    // prints the paths
     private void printDestinationPath(String destinationNodeName, HashMap<String, DjikstraAlgoTable> djikstraAlgoTable)
     {
         String currentNodeName = destinationNodeName; 
         Stack<String> path = new Stack<>();
-        double pathValue = 0.0; 
+        double pathValue = 0.0;
+        String fromNode = null;
+        String toNode = null;
+
+        
+        // accumulate the total minutes that the path will take
+        double totalMinutes = 0.0;
+        double totalKm = 0.0; 
 
         // get the destinationNode from the table and use it 
 
@@ -333,12 +340,23 @@ public class Graph {
         {
             path.push(currentNodeName); 
 
+            // get the distance and the minutes for the path from the destination node to source node working backwordss
+            
+            // get the edge where current node is the to node of the edge, and the parent node is the from node of the edge
+            fromNode = djikstraAlgoTable.get(currentNodeName).getParentNode();
+            toNode = currentNodeName; 
+            Pair weights = this.graph.get(fromNode).get(toNode); // these are the weights for the graph 
+
+            totalMinutes += weights.getMinutes(); // add the minutes to the accum
+            totalKm += weights.getMiles(); // add miles 
+
             currentNodeName = djikstraAlgoTable.get(currentNodeName).getParentNode(); 
         }
 
         path.push(currentNodeName); 
 
-        System.out.print("Path Value: " + pathValue + " Path: "); 
+        System.out.println("Path Distance (km): " + totalKm); 
+        System.out.println("Path Time (min): " + totalMinutes); 
 
         while(path.isEmpty() == false)
         {
