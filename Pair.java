@@ -1,17 +1,17 @@
 // represents the two weights of each edge in the graph
 public class Pair {
     private final double minutes; 
-    private final double  miles; 
+    private final double  km; 
     private double normalizedMinutes; 
-    private double normalizedMiles;
+    private double normalizedKm;
     private double singalFinalValue; 
 
-    public Pair(double minutes, double miles)
+    public Pair(double minutes, double km)
     {
         this.minutes = minutes; 
-        this.miles = miles; 
+        this.km = km; 
         this.normalizedMinutes = 0.0;
-        this.normalizedMiles = 0.0;
+        this.normalizedKm = 0.0;
         this.singalFinalValue = 0.0;
     }
 
@@ -20,14 +20,14 @@ public class Pair {
         return this.minutes; 
     }
 
-    public double getMiles()
+    public double getKm()
     {
-        return this.miles; 
+        return this.km; 
     }
 
-    public double getNormalizedMiles()
+    public double getNormalizedKm()
     {
-        return this.normalizedMiles; 
+        return this.normalizedKm; 
     }
 
     public double getNormalizedMinutes()
@@ -37,7 +37,7 @@ public class Pair {
 
     public void setNormalizedMiles(double normalizedMiles)
     {
-        this.normalizedMiles = normalizedMiles; 
+        this.normalizedKm = normalizedMiles; 
     }
 
     public void setNormalizedMinutes(double normalizedMinutes)

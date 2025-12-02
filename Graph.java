@@ -9,15 +9,15 @@ public class Graph {
     public HashMap<String, HashMap<String, Pair>> graph; // represents the graph in the adjacency list representation
     double maxMinutes; 
     double minMinutes;
-    double maxMiles;
-    double minMiles; 
+    double maxKm;
+    double minKm; 
 
     public Graph()
     {
         graph = new HashMap<>();
-        this.maxMiles = 0.0;
+        this.maxKm = 0.0;
         this.maxMinutes = 0.0;
-        this.minMiles = 0.0;
+        this.minKm = 0.0;
         this.minMinutes = 0.0; 
     }
 
@@ -74,50 +74,53 @@ public class Graph {
                 {
                     // parse each partition by comma
                     String[] subPartitions = partitions[i].split(","); 
+                    StringBuilder adjacentNodeCreator = new StringBuilder(subPartitions[0]);
+                    adjacentNodeCreator.deleteCharAt(0); 
+                    String adjacentNode = adjacentNodeCreator.toString(); 
 
                     // add the adjacent node to the main graph, if it does not already exist 
-                    if (this.graph.containsKey(String.valueOf(subPartitions[0].charAt(1))) == false)
+                    if (this.graph.containsKey(adjacentNode) == false)
                     {
-                        this.graph.put(String.valueOf(subPartitions[0].charAt(1)), new HashMap<>()); 
+                        this.graph.put(adjacentNode, new HashMap<>()); 
                     }
 
-                    String miles = new String(); 
+                    String km = new String(); 
                     // put second string to get double
                     for (int y = 0; y < (subPartitions[2].length()-1); y++)
                     {
-                        miles += subPartitions[2].charAt(y); 
+                        km += subPartitions[2].charAt(y); 
                     }
 
                     // intializes the min and max variables, so they can be used throughout the construction of the graph later
                     if (firstPass == true)
                     {
-                        this.maxMiles = Double.parseDouble(miles);
-                        this.minMiles = Double.parseDouble(miles);
+                        this.maxKm = Double.parseDouble(km);
+                        this.minKm = Double.parseDouble(km);
                         this.minMinutes = Double.parseDouble(subPartitions[1]);
                         this.maxMinutes = Double.parseDouble(subPartitions[1]);
                         firstPass = false; 
                     }
 
                     // add the edge with the proper double weights 
-                    Pair newEdge = new Pair(Double.parseDouble(subPartitions[1]), Double.parseDouble(miles)); 
+                    Pair newEdge = new Pair(Double.parseDouble(subPartitions[1]), Double.parseDouble(km)); 
 
                     // add the neccesary checks to see the max and min values 
                     if (newEdge.getMinutes() > this.maxMinutes)
                         this.maxMinutes = newEdge.getMinutes(); 
 
-                    if (newEdge.getMiles() > this.maxMiles)
-                        this.maxMiles = newEdge.getMiles();
+                    if (newEdge.getKm() > this.maxKm)
+                        this.maxKm = newEdge.getKm();
 
                     if (newEdge.getMinutes() < this.minMinutes)
                         this.minMinutes = newEdge.getMinutes(); 
 
-                    if (newEdge.getMiles() < this.minMiles)
-                        this.minMiles = newEdge.getMiles(); 
+                    if (newEdge.getKm() < this.minKm)
+                        this.minKm = newEdge.getKm(); 
 
                     HashMap<String,Pair> adjacencyList = this.graph.get(String.valueOf(partitions[0])); 
 
                     // add the adjacent node and its two values to the adjacency list 
-                    adjacencyList.put(String.valueOf(subPartitions[0].charAt(1)), newEdge); 
+                    adjacencyList.put(adjacentNode, newEdge); 
                 }
 
             }
@@ -143,9 +146,9 @@ public class Graph {
     }
 
     // calculates the importance, and computes a single value from it 
-    private double importanceFunction(double minutesImportance, double minutes, double milesImportance, double miles)
+    private double importanceFunction(double minutesImportance, double minutes, double kmImportance, double km)
     {
-        return (minutesImportance * minutes) + (milesImportance * miles); 
+        return (minutesImportance * minutes) + (kmImportance * km); 
     }
 
     // print the graph in adjacency list format 
@@ -161,13 +164,13 @@ public class Graph {
             for (String adjacentNode : this.graph.get(currentNode).keySet())
             {
                 edgePair = this.graph.get(currentNode).get(adjacentNode); 
-                System.out.print("(" + adjacentNode + ", " + edgePair.getMinutes() + ", " + edgePair.getMiles() + ") "); 
+                System.out.print("(" + adjacentNode + ", " + edgePair.getMinutes() + ", " + edgePair.getKm() + ") "); 
             }
             System.out.println();
         }
 
-        System.out.println("Max Miles: " + this.maxMiles);
-        System.out.println("Min Miles: " + this.minMiles);
+        System.out.println("Max km: " + this.maxKm);
+        System.out.println("Min km: " + this.minKm);
         System.out.println("Max Minutes: " + this.maxMinutes);
         System.out.println("Min Minutes: " + this.minMinutes);
 
@@ -241,12 +244,12 @@ public class Graph {
     
 
     // will perform djikstra algorithm on this current graph, will output the shortest path and 
-    public void djikstra(String sourceNodeName, String destinationNodeName,double minutesImportance, double milesImportance)
+    public void djikstra(String sourceNodeName, String destinationNodeName,double minutesImportance, double kmImportance)
     {
         DjikstraAlgoTable currentNode = null; 
-        double miles = 0.0;
+        double km = 0.0;
         double minutes = 0.0;
-        double normalizedMiles = 0.0;
+        double normalizedKm = 0.0;
         double normalizedMinutes = 0.0;
         double finalEdgeValue = 0.0;
         HashMap<String, DjikstraAlgoTable> djikstraAlgoTable = new HashMap<>(); // represents the table which will be used for djikstra's algorithm 
@@ -275,17 +278,17 @@ public class Graph {
                 {
                     // first normalize the weights on the edge (minutes and miles)
                     minutes = this.graph.get(currentNode.getCurrentNode()).get(adjacentNode).getMinutes(); 
-                    miles = this.graph.get(currentNode.getCurrentNode()).get(adjacentNode).getMiles();
+                    km = this.graph.get(currentNode.getCurrentNode()).get(adjacentNode).getKm();
                     
                     // sets the normalized values 
                     this.graph.get(currentNode.getCurrentNode()).get(adjacentNode).setNormalizedMinutes(this.normalize(this.minMinutes, this.maxMinutes, minutes));
-                    this.graph.get(currentNode.getCurrentNode()).get(adjacentNode).setNormalizedMiles(this.normalize(this.minMiles, this.maxMiles, miles));                     
+                    this.graph.get(currentNode.getCurrentNode()).get(adjacentNode).setNormalizedMiles(this.normalize(this.minKm, this.maxKm, km));                     
                     
                     normalizedMinutes = this.graph.get(currentNode.getCurrentNode()).get(adjacentNode).getNormalizedMinutes();
-                    normalizedMiles = this.graph.get(currentNode.getCurrentNode()).get(adjacentNode).getNormalizedMiles();
+                    normalizedKm = this.graph.get(currentNode.getCurrentNode()).get(adjacentNode).getNormalizedKm();
 
                     // apply the importance function on the normalized values 
-                    this.graph.get(currentNode.getCurrentNode()).get(adjacentNode).setSingalFinalValue(this.importanceFunction(minutesImportance,normalizedMinutes , milesImportance, normalizedMiles));
+                    this.graph.get(currentNode.getCurrentNode()).get(adjacentNode).setSingalFinalValue(this.importanceFunction(minutesImportance,normalizedMinutes , kmImportance, normalizedKm));
                     
                     // sets the final signal value after all transformations
                     finalEdgeValue = this.graph.get(currentNode.getCurrentNode()).get(adjacentNode).getSingalFinalValue(); 
@@ -348,7 +351,7 @@ public class Graph {
             Pair weights = this.graph.get(fromNode).get(toNode); // these are the weights for the graph 
 
             totalMinutes += weights.getMinutes(); // add the minutes to the accum
-            totalKm += weights.getMiles(); // add miles 
+            totalKm += weights.getKm(); // add miles 
 
             currentNodeName = djikstraAlgoTable.get(currentNodeName).getParentNode(); 
         }
