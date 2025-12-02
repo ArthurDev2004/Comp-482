@@ -33,7 +33,7 @@ public class Main {
             System.out.print("On a scale of 0-10, enter how much importance you want to put on minutes: "); 
             minutes_input = (int) inputScanner.nextDouble(); 
             
-            while(minutes_input <= 0 || minutes_input >= 10)
+            while(minutes_input < 0 || minutes_input > 10)
             {
                 System.out.println("Input a number on a scale of 0-10. Try Again!"); 
                 System.out.print("On a scale of 0-10, enter how much importance you want to put on minutes: "); 
