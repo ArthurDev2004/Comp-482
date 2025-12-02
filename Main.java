@@ -31,9 +31,9 @@ public class Main {
         {
             // get the input with the proper input validation
             System.out.print("On a scale of 0-10, enter how much importance you want to put on minutes: "); 
-            minutes_input = (int) inputScanner.nextDouble(); 
+            minutes_input = (int) inputScanner.nextDouble();
             
-            while(minutes_input <= 0 || minutes_input >= 10)
+            while(minutes_input < 0 || minutes_input > 10.0)
             {
                 System.out.println("Input a number on a scale of 0-10. Try Again!"); 
                 System.out.print("On a scale of 0-10, enter how much importance you want to put on minutes: "); 
@@ -51,7 +51,7 @@ public class Main {
             System.out.println("Please confirm the following Importance scale you chose. \nMinutes Importance: " + (minutesImportance*10) + "\nMiles Importance: " + (milesImportance*10));
             System.out.println("Is the following correct? (Y/N)");
             char user_confirm = ((inputScanner.next()).toUpperCase()).charAt(0);
-            System.out.println(user_confirm);
+            
             
     
             while(user_confirm == 'N'){

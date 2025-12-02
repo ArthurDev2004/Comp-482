@@ -56,7 +56,7 @@ public class Graph {
     private void populateFromFile()
     {
         // path to file 
-        String filePath = "Comp-482/graph.txt"; 
+        String filePath = "graph.txt"; 
         boolean firstPass = true; // will be used to get the first values in the first edge as the min and max of the respective values, then go from there
 
         // get the data from the scanner 
